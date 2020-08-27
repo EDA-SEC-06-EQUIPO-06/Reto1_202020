@@ -29,14 +29,15 @@
 import config as cf
 import sys
 import csv
-
 from ADT import list as lt
 from DataStructures import listiterator as it
 from DataStructures import liststructure as lt
-
 from time import process_time 
-
-
+from Sorting import insertionsort   
+from Sorting import mergesort  
+from Sorting import quicksort   
+from Sorting import selectionsort  
+from Sorting import shellsort 
 
 def printMenu():
     """
@@ -51,17 +52,12 @@ def printMenu():
     print("6- Crear ranking")
     print("0- Salir")
 
-
-
-
 def compareRecordIds (recordA, recordB):
     if int(recordA['id']) == int(recordB['id']):
         return 0
     elif int(recordA['id']) > int(recordB['id']):
         return 1
     return -1
-
-
 
 def loadCSVFile (file, cmpfunction):
     lst=lt.newList("ARRAY_LIST", cmpfunction)
@@ -78,10 +74,75 @@ def loadCSVFile (file, cmpfunction):
 
 
 def loadMovies ():
-    lst = loadCSVFile("theMoviesdb/movies-small.csv",compareRecordIds) 
+    lst = loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",compareRecordIds) 
     print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
     return lst
 
+def rankingPeliculas(function, lst, criteria, elements):
+    """
+    Retorna el ranking de películas con base en los parámetros
+     Args:
+        function
+            Función de ordenamiento que se va a usar
+        column:: str
+            Columna que se usa para realiza el ordenamiento (vote_average o vote_count)   
+        lst
+            Lista encadenada o arreglo     
+        criteria:: str
+            Critero para ordenar (less o greater)
+        elements:: int
+            Cantidad de elementos para el ranking
+    Return:
+        counter :: int
+            la cantidad de veces ue aparece un elemento con el criterio definido
+    """
+    t1_start = process_time() #tiempo inicial
+    if function == "selectionsort":
+       selectionsort.selectionSort(lst, criteria)
+    if function == "insertionsort":
+       insertionsort.insertionSort(lst, criteria)
+    if function == "mergesort":
+       mergesort.mergesort(lst, criteria)
+    if function == "quicksort":
+       quicksort.quickSort(lst, criteria)
+    if function == "shellsort":
+       shellsort.shellSort(lst, criteria)
+    i = 0
+    ordenado = []
+    while i < elements:
+       i += 1
+       pelicula = lt.getElement(lst,i)
+       ordenado.append(pelicula)
+    t1_stop = process_time() #tiempo final
+    print("Tiempo de ejecución ",t1_stop-t1_start," segundos")       
+    return ordenado
+
+def conocerDirector(director,datos):
+    r=0
+    numero_peliculas=0
+    lista=[]
+    id_peliculas=[]
+    while r<len(datos):
+        p=datos[r]
+        if p["director_name"]== director:
+            numero_peliculas+=1
+            lista.append(p)
+            id_peliculas.append(p["id"])
+        r+=1
+    return numero_peliculas,lista,id_peliculas
+def votos_media(id_peliculasa,lista):
+    r=0
+    suma=0
+    promedio=0
+    while r<len(lista):
+        p=lista[r]
+        for i in id_peliculasa:
+            if i == p["id"]:
+                suma+=float(p["vote_average"])
+        r+=1
+    if suma > 0:
+        promedio=suma/len(id_peliculasa)
+    return promedio   
 
 def main():
     """
@@ -97,14 +158,49 @@ def main():
         printMenu() #imprimir el menu de opciones en consola
         inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
-
             if int(inputs[0])==1: #opcion 1
                 lstmovies = loadMovies()
 
             elif int(inputs[0])==2: #opcion 2
+                lista = lstmovies
+                if lista==None or lista['size']==0: #obtener la longitud de la lista
+                    print("La lista esta vacía")
+                else:   
+                    print("Hay 5 algoritmos de ordenamiento: \ninsertionsort\nmergesort\nquicksort\nselectionsort\nshellsort")    
+                    ## Pide los parámetros al usuario
+                    algoritmo = input("Escriba el algoritmo de ordenamiento que desee usar: ")
+                    columna = input("Escriba la columna a utilizar (vote_average o vote_count): ")  
+                    criteria = input("Escriba el criterio a utilizar (less o greater): ") 
+                    elements = int(input("¿Cuántas películas quiere ver en el ranking?: "))
+                    def less(element1, element2, column=columna): # Agregué "column" para poder escoger, por ejemplo, entre vote_average y vote_count
+                        if float(element1[column]) < float(element2[column]):
+                           return True
+                        return False
+                    def greater(element1, element2,column=columna):
+                        if float(element1[column]) > float(element2[column]):
+                           return True
+                        return False  
+                    if criteria == "less":
+                       lista = rankingPeliculas(algoritmo, lista, less, elements)
+                    elif criteria == "greater":
+                       lista = rankingPeliculas(algoritmo, lista, greater, elements)
+                    print("Películas ordenadas: \n")   
+                    print(lista)        
                 pass
 
             elif int(inputs[0])==3: #opcion 3
+                lista = lstmovies
+                if lista==None or lista['size']==0: #obtener la longitud de la lista
+                    print("La lista esta vacía")
+                else:       
+                    lista = lstmovies
+                    director = input("Escriba el director: ")
+                    e = conocerDirector(director,lista)
+                    w=votos_media(e[2],lstmovies)
+                    print(w)
+                    print("El numero de peliculas dirigidas por {0} fueron {1} con un promedio de {2}".format(t,e[0],w))
+                    print("La lista de las peliculas dirigidas son {o}")
+                    print(e[1])
                 pass
 
             elif int(inputs[0])==4: #opcion 4
