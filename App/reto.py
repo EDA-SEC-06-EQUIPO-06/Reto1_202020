@@ -50,6 +50,7 @@ def printMenu():
     print("4- Conocer un actor")
     print("5- Entender un genero")
     print("6- Crear ranking")
+    print("7- encontrar peliculas buenas")
     print("0- Salir")
 
 def compareRecordIds (recordA, recordB):
@@ -193,25 +194,19 @@ def main():
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")
                 else:       
-                    lista = lstmovies
-                    director = input("Escriba el director: ")
-                    e = conocerDirector(director,lista)
-                    w=votos_media(e[2],lstmovies)
-                    print(w)
-                    print("El numero de peliculas dirigidas por {0} fueron {1} con un promedio de {2}".format(t,e[0],w))
-                    print("La lista de las peliculas dirigidas son {o}")
-                    print(e[1])
+                    lista=9
                 pass
 
             elif int(inputs[0])==4: #opcion 4
                 pass
 
-            elif int(inputs[0])==3: #opcion 5
+            elif int(inputs[0])==5: #opcion 5
                 pass
 
-            elif int(inputs[0])==4: #opcion 6
+            elif int(inputs[0])==6: #opcion 6
                 pass
-
+            elif int(inputs[0])==7: #opcion 7
+                pass
 
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
