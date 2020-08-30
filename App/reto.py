@@ -144,6 +144,33 @@ def votos_media(id_peliculasa,lista):
     if suma > 0:
         promedio=suma/len(id_peliculasa)
     return promedio   
+def encontrar_peliculas_buenas(lista1,lista2,nombre):
+    promedio=0
+    lista2_elementos=lista2["elements"]
+    lista1_elementos=lista1["elements"]
+    director_name=0
+    fila=0
+    prueba="Jean Renoir"
+    ids=[]
+    suma=0
+    cantidad_peliculas=0
+    while fila < len(lista2_elementos):
+        if lista2_elementos[fila]["director_name"] == nombre:
+            ids.append(lista2_elementos[fila]["id"]) 
+        fila+=1
+    fila=0
+    while fila < len(lista1_elementos):
+        for i in ids:
+            if lista1_elementos[fila]["id"] == i:
+                o=lista1_elementos[fila]["vote_average"]
+                if float(o) >= 6:
+                    suma+=float(o)
+                    cantidad_peliculas+=1
+        fila+=1
+    if cantidad_peliculas >0:
+        promedio=suma/cantidad_peliculas
+    return (promedio,cantidad_peliculas)
+
 
 def main():
     """
@@ -206,6 +233,12 @@ def main():
             elif int(inputs[0])==6: #opcion 6
                 pass
             elif int(inputs[0])==7: #opcion 7
+                nombre_director=input("¿que director buscas?\n")
+                lista1=loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",compareRecordIds)
+                lista2=loadCSVFile("theMoviesdb/MoviesCastingRaw-small.csv",compareRecordIds)
+                u=encontrar_peliculas_buenas(lista1,lista2,nombre_director)
+                print("el director {0} tiene {1} peliculas buenas con un promedio de {2}".format(nombre_director,u[1],u[0]))
+                
                 pass
 
             elif int(inputs[0])==0: #opcion 0, salir
