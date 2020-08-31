@@ -118,7 +118,6 @@ def rankingPeliculas(function, lst, criteria, elements):
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")       
     return ordenado
 
-<<<<<<< HEAD
 def entenderGenero(genero, lst):
     """
     Retorna la lista, el número y el promedio de votos de las películas de un género cinematográfico
@@ -150,9 +149,6 @@ def entenderGenero(genero, lst):
     res = asociadas, total, prom_votos
     return res
 
-lol = "Drama|Crime" in "Drama"
-print(lol)
-=======
 def conocerDirector(director,datos):
     r=0
     numero_peliculas=0
@@ -269,11 +265,6 @@ def conocer_actor(lista1,lista2,nombre):
     
     return (promedio,peliculas,directores_final,lista_peliculas)
             
-        
-        
-
-    
->>>>>>> c2dbdef2a6eefda173d39341c810aa50636662f0
 def main():
     """
     Método principal del programa, se encarga de manejar todos los metodos adicionales creados
@@ -321,14 +312,17 @@ def main():
             elif int(inputs[0])==3: #opcion 3
                 lista = lstmovies
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
-<<<<<<< HEAD
-                    print("La lista esta vacía")    
-=======
                     print("La lista esta vacía")
                 else:       
-                    lista=9
->>>>>>> c2dbdef2a6eefda173d39341c810aa50636662f0
-                pass
+                    lista = lstmovies
+                    director = input("Escriba el director: ")
+                    e = conocerDirector(director,lista)
+                    w=votos_media(e[2],lstmovies)
+                    print(w)
+                    print("El numero de peliculas dirigidas por {0} fueron {1} con un promedio de {2}".format(t,e[0],w))
+                    print("La lista de las peliculas dirigidas son {o}")
+                    print(e[1])
+                    print("La lista esta vacía")    
 
             elif int(inputs[0])==4: #opcion 4
                 lista1=loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",compareRecordIds)
@@ -350,7 +344,6 @@ def main():
                 pass
 
             elif int(inputs[0])==5: #opcion 5
-<<<<<<< HEAD
                 lista = lstmovies
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
@@ -366,10 +359,6 @@ def main():
                 pass
 
             elif int(inputs[0])==6: #opcion 6
-=======
-                pass
-
-            elif int(inputs[0])==6: #opcion 6
                 pass
             elif int(inputs[0])==7: #opcion 7
                 nombre_director=input("¿que director buscas?\n")
@@ -377,7 +366,6 @@ def main():
                 lista2=loadCSVFile("theMoviesdb/MoviesCastingRaw-small.csv",compareRecordIds)
                 u=encontrar_peliculas_buenas(lista1,lista2,nombre_director)
                 print("el director {0} tiene {1} peliculas buenas con un promedio de {2}".format(nombre_director,u[1],u[0]))
->>>>>>> c2dbdef2a6eefda173d39341c810aa50636662f0
                 pass
 
             elif int(inputs[0])==0: #opcion 0, salir
