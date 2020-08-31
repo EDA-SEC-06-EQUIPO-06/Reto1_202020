@@ -117,33 +117,39 @@ def rankingPeliculas(function, lst, criteria, elements):
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")       
     return ordenado
 
-def conocerDirector(director,datos):
-    r=0
-    numero_peliculas=0
-    lista=[]
-    id_peliculas=[]
-    while r<len(datos):
-        p=datos[r]
-        if p["director_name"]== director:
-            numero_peliculas+=1
-            lista.append(p)
-            id_peliculas.append(p["id"])
-        r+=1
-    return numero_peliculas,lista,id_peliculas
-def votos_media(id_peliculasa,lista):
-    r=0
-    suma=0
-    promedio=0
-    while r<len(lista):
-        p=lista[r]
-        for i in id_peliculasa:
-            if i == p["id"]:
-                suma+=float(p["vote_average"])
-        r+=1
-    if suma > 0:
-        promedio=suma/len(id_peliculasa)
-    return promedio   
+def entenderGenero(genero, lst):
+    """
+    Retorna la lista, el número y el promedio de votos de las películas de un género cinematográfico
+     Args:
+        genero
+            Género cinematográfico
+        column:: str
+            Columna que se usa para realiza el ordenamiento (vote_average o vote_count)   
+        lst
+            Lista encadenada o arreglo     
+        criteria:: str
+            Critero para ordenar (less o greater)
+        elements:: int
+            Cantidad de elementos para el ranking
+    Return:
+        counter :: int
+            la cantidad de veces ue aparece un elemento con el criterio definido
+    """   
+    asociadas = [] 
+    total = 0
+    votos = 0
+    for pelicula in lst["elements"]:
+        genre = pelicula["genres"]
+        if genero.lower() in genre.lower():
+           asociadas.append(pelicula)
+           total += 1
+           votos += int(pelicula["vote_count"])
+    prom_votos = votos / total       
+    res = asociadas, total, prom_votos
+    return res
 
+lol = "Drama|Crime" in "Drama"
+print(lol)
 def main():
     """
     Método principal del programa, se encarga de manejar todos los metodos adicionales creados
@@ -191,25 +197,28 @@ def main():
             elif int(inputs[0])==3: #opcion 3
                 lista = lstmovies
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
-                    print("La lista esta vacía")
-                else:       
-                    lista = lstmovies
-                    director = input("Escriba el director: ")
-                    e = conocerDirector(director,lista)
-                    w=votos_media(e[2],lstmovies)
-                    print(w)
-                    print("El numero de peliculas dirigidas por {0} fueron {1} con un promedio de {2}".format(t,e[0],w))
-                    print("La lista de las peliculas dirigidas son {o}")
-                    print(e[1])
+                    print("La lista esta vacía")    
                 pass
 
             elif int(inputs[0])==4: #opcion 4
                 pass
 
-            elif int(inputs[0])==3: #opcion 5
+            elif int(inputs[0])==5: #opcion 5
+                lista = lstmovies
+                if lista==None or lista['size']==0: #obtener la longitud de la lista
+                    print("La lista esta vacía")    
+                else:
+                    genero = input("Escriba el género cinematográfico: ")
+                    res_genero = entenderGenero(genero, lstmovies)
+                    lista_genero = res_genero[0]
+                    numero = res_genero[1]
+                    votos = res_genero[2]
+                print("Lista de peliculas:",lista_genero,"\n")
+                print("Numero de peliculas:",numero,"\n") 
+                print("Promedio de votos:",votos,"\n")    
                 pass
 
-            elif int(inputs[0])==4: #opcion 6
+            elif int(inputs[0])==6: #opcion 6
                 pass
 
 
