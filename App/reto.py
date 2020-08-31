@@ -50,7 +50,6 @@ def printMenu():
     print("4- Conocer un actor")
     print("5- Entender un genero")
     print("6- Crear ranking")
-    print("7- encontrar peliculas buenas")
     print("0- Salir")
 
 def compareRecordIds (recordA, recordB):
@@ -118,7 +117,6 @@ def rankingPeliculas(function, lst, criteria, elements):
     print("Tiempo de ejecución ",t1_stop-t1_start," segundos")       
     return ordenado
 
-<<<<<<< HEAD
 def entenderGenero(genero, lst):
     """
     Retorna la lista, el número y el promedio de votos de las películas de un género cinematográfico
@@ -150,130 +148,6 @@ def entenderGenero(genero, lst):
     res = asociadas, total, prom_votos
     return res
 
-lol = "Drama|Crime" in "Drama"
-print(lol)
-=======
-def conocerDirector(director,datos):
-    r=0
-    numero_peliculas=0
-    lista=[]
-    id_peliculas=[]
-    while r<len(datos):
-        p=datos[r]
-        if p["director_name"]== director:
-            numero_peliculas+=1
-            lista.append(p)
-            id_peliculas.append(p["id"])
-        r+=1
-    return numero_peliculas,lista,id_peliculas
-def votos_media(id_peliculasa,lista):
-    r=0
-    suma=0
-    promedio=0
-    while r<len(lista):
-        p=lista[r]
-        for i in id_peliculasa:
-            if i == p["id"]:
-                suma+=float(p["vote_average"])
-        r+=1
-    if suma > 0:
-        promedio=suma/len(id_peliculasa)
-    return promedio   
-def encontrar_peliculas_buenas(lista1,lista2,nombre):
-    promedio=0
-    lista2_elementos=lista2["elements"]
-    lista1_elementos=lista1["elements"]
-    
-    fila=0
-    ids=[]
-    suma=0
-    cantidad_peliculas=0
-    while fila < len(lista2_elementos):
-        if lista2_elementos[fila]["director_name"] == nombre:
-            ids.append(lista2_elementos[fila]["id"]) 
-        fila+=1
-    fila=0
-    while fila < len(lista1_elementos):
-        for i in ids:
-            if lista1_elementos[fila]["id"] == i:
-                o=lista1_elementos[fila]["vote_average"]
-                if float(o) >= 6:
-                    suma+=float(o)
-                    cantidad_peliculas+=1
-        fila+=1
-    if cantidad_peliculas >0:
-        promedio=suma/cantidad_peliculas
-    return (promedio,cantidad_peliculas)
-
-def conocer_actor(lista1,lista2,nombre):
-    lista2_elementos=lista2["elements"]
-    lista1_elementos=lista1["elements"]
-    nombre_prueba="Jean-Louis Barrault"
-    fila=0
-    lista_peliculas=[]
-    directores=[]
-    peliculas=0
-    ids=[]
-    directores_dict={}
-    mayor=0
-    directores_final=[]
-    while fila < len(lista2_elementos):
-        if lista2_elementos[fila]['actor1_name'] == nombre:
-            peliculas+=1
-            ids.append(lista2_elementos[fila]['id'])
-            lista_peliculas.append(lista2_elementos[fila])
-            directores.append(lista2_elementos[fila]["director_name"])
-        elif lista2_elementos[fila]['actor2_name'] == nombre:
-            peliculas+=1
-            ids.append(lista2_elementos[fila]['id'])
-            lista_peliculas.append(lista2_elementos[fila])
-            directores.append(lista2_elementos[fila]["director_name"])
-        elif lista2_elementos[fila]['actor3_name'] == nombre:
-            peliculas+=1
-            ids.append(lista2_elementos[fila]['id'])
-            lista_peliculas.append(lista2_elementos[fila])
-            directores.append(lista2_elementos[fila]["director_name"])
-        elif lista2_elementos[fila]['actor4_name'] == nombre:
-            peliculas+=1
-            ids.append(lista2_elementos[fila]['id'])
-            lista_peliculas.append(lista2_elementos[fila])
-            directores.append(lista2_elementos[fila]["director_name"])
-        elif lista2_elementos[fila]['actor5_name'] == nombre:
-            peliculas+=1
-            ids.append(lista2_elementos[fila]['id'])
-            lista_peliculas.append(lista2_elementos[fila])
-            directores.append(lista2_elementos[fila]["director_name"])
-        fila+=1
-    fila=0
-    promedio=0
-    while fila < len(lista1_elementos):
-        for i in ids:
-            if lista1_elementos[fila]['id'] == i:
-                promedio+=float(lista1_elementos[fila]["vote_average"])
-        promedio=promedio/peliculas
-        fila+=1
-    for t in directores:
-        if t not in directores_dict:
-            directores_dict[t]=1
-        elif t in directores_dict:
-            y=directores_dict[t]
-            w=float(y)+1
-            directores_dict[t]=w
-    for h in directores_dict:
-        if directores_dict[h] >mayor:
-            directores_final=[]
-            mayor=directores_dict[h]
-            directores_final.append(h)
-        elif directores_dict[h] == mayor:
-            directores_final.append(h)
-    
-    return (promedio,peliculas,directores_final,lista_peliculas)
-            
-        
-        
-
-    
->>>>>>> c2dbdef2a6eefda173d39341c810aa50636662f0
 def main():
     """
     Método principal del programa, se encarga de manejar todos los metodos adicionales creados
@@ -321,36 +195,13 @@ def main():
             elif int(inputs[0])==3: #opcion 3
                 lista = lstmovies
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
-<<<<<<< HEAD
                     print("La lista esta vacía")    
-=======
-                    print("La lista esta vacía")
-                else:       
-                    lista=9
->>>>>>> c2dbdef2a6eefda173d39341c810aa50636662f0
                 pass
 
             elif int(inputs[0])==4: #opcion 4
-                lista1=loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",compareRecordIds)
-                lista2=loadCSVFile("theMoviesdb/MoviesCastingRaw-small.csv",compareRecordIds)
-                nombre=input("¿que actor deseas buscar?\n")
-                p=conocer_actor(lista1,lista2,nombre)
-                if len(p[2]) > 1:
-                    print("El actor {0} ha colaborado con {1} directores la misma cantidad de veces, \nlos nombres de los directores son {2}".format(nombre,len(p[2]),p[2]))
-                    print("el numero de peliculas en las que aparece el actor son {0}, con un promedio de {1}".format(p[1],p[0]))
-                    print("la lista de peliculas en las que participo son:")
-                    print(p[3])
-                elif len(p[2]) == 0:
-                    print("El actor {0} no ha actuado con ningun director".format(nombre))
-                elif len(p[2]) == 1:
-                    print("El actor {0} ha actuado con {1} mas veces que con cualquier otro dircetor".format(nombre,p[2],))
-                    print("el numero de peliculas en las que aparece el actor son {0}, con un promedio de {1}".format(p[1],p[0]))
-                    print("la lista de peliculas en las que participo son:")
-                    print(p[3])
                 pass
 
             elif int(inputs[0])==5: #opcion 5
-<<<<<<< HEAD
                 lista = lstmovies
                 if lista==None or lista['size']==0: #obtener la longitud de la lista
                     print("La lista esta vacía")    
@@ -366,20 +217,7 @@ def main():
                 pass
 
             elif int(inputs[0])==6: #opcion 6
-=======
                 pass
-
-            elif int(inputs[0])==6: #opcion 6
-                pass
-            elif int(inputs[0])==7: #opcion 7
-                nombre_director=input("¿que director buscas?\n")
-                lista1=loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",compareRecordIds)
-                lista2=loadCSVFile("theMoviesdb/MoviesCastingRaw-small.csv",compareRecordIds)
-                u=encontrar_peliculas_buenas(lista1,lista2,nombre_director)
-                print("el director {0} tiene {1} peliculas buenas con un promedio de {2}".format(nombre_director,u[1],u[0]))
->>>>>>> c2dbdef2a6eefda173d39341c810aa50636662f0
-                pass
-
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
                 
