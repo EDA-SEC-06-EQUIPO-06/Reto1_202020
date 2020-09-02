@@ -360,12 +360,12 @@ def main():
 
             elif int(inputs[0])==6: #opcion 6
                 pass
-            elif int(inputs[0])==7: #opcion 7
-                nombre_director=input("¿que director buscas?\n")
+            elif int(inputs[0])==7: #opcion 7 (Req 1)
+                nombre_director=input("¿Qué director busca?: \n")
                 lista1=loadCSVFile("theMoviesdb/SmallMoviesDetailsCleaned.csv",compareRecordIds)
                 lista2=loadCSVFile("theMoviesdb/MoviesCastingRaw-small.csv",compareRecordIds)
                 u=encontrar_peliculas_buenas(lista1,lista2,nombre_director)
-                print("el director {0} tiene {1} peliculas buenas con un promedio de {2}".format(nombre_director,u[1],u[0]))
+                print("El director {0} tiene {1} peliculas buenas con un promedio de {2}".format(nombre_director,u[1],u[0]))
                 pass
 
             elif int(inputs[0])==0: #opcion 0, salir
